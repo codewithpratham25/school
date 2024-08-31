@@ -6,14 +6,15 @@ import sqlalchemy
 
 print("Hello, This is Python Program which uses MySQL and Pandas Dataframe to Store and Display the Data.")
 perm = str(input("Please Enter Y to Continue and N to abort: "))
-print("Please select one of the options below to continue: \n1. Data Entry 2. Data Retrieval and Export")
-program = int(input("Enter the Choice: "))
 if perm == "y" or perm == "Y":
+    print("Please select one of the options below to continue: \n1. Data Entry 2. Data Retrieval and Export")
+    program = int(input("Enter the Choice: "))
     if program == 1:
         uhost = 'localhost'
         uport = int(input("Enter the Port Number (By deafult 3306): "))
         username = str(input("Enter your MySQl server username: "))
         passw = str(input("Enter your MySQl server password: "))
+        db = str(input('Enter the database name (For insert and create queries only): '))
         
         myDB = mysql.connector.connect(
             host = uhost,
@@ -34,6 +35,7 @@ if perm == "y" or perm == "Y":
                 myCursor.execute(f'CREATE DATABASE {db}')
             
             if choice == 2:
+                db = str(input('Enter the database name: '))
                 tb = str(input("Enter the Create table Query: "))
                 myDB = mysql.connector.connect(
                     host = uhost,
@@ -73,12 +75,15 @@ if perm == "y" or perm == "Y":
         print(df)
         perm = str(input('\nDo you want to Export the Data(Y or N): '))
         if perm == "y" or perm == "Y":
-            df.to_csv('D:/Python/export.csv',sep=',',header=False)
+            df.to_csv('D:/Python/school/export.csv',sep=',',header=False)
+            print('Exported the File to loc D:/Python/school/export.csv')
         if perm == 'n' or perm == "N":
             exit
-        
-if perm == 'n' or perm == 'N':
-    print("Program Aborted! ")
+elif perm == 'n' or perm == 'N':
+    print("Program Aborted!")
+    exit()
+    
+
                 
             
             

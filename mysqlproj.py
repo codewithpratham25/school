@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import pymysql
 import sqlalchemy
+import matplotlib.pyplot as plt
 
 print("Hello, This is Python Program which uses MySQL and Pandas Dataframe to Store and Display the Data.")
 perm = str(input("Please Enter Y to Continue and N to abort: "))
@@ -10,14 +11,14 @@ if perm == "y" or perm == "Y":
     print("Please select one of the options below to continue: \n1. Data Entry 2. Data Retrieval and Export")
     program = int(input("Enter the Choice: "))
     if program == 1:
-        uhost = 'localhost'
-        uport = int(input("Enter the Port Number (By deafult 3306): "))
+        userhost = 'localhost'
+        uport = int(input("Enter the Port Number (By default 3306): "))
         username = str(input("Enter your MySQl server username: "))
         passw = str(input("Enter your MySQl server password: "))
         db = str(input('Enter the database name (For insert and create queries only): '))
         
         myDB = mysql.connector.connect(
-            host = uhost,
+            host = userhost,
             user = username,
             password = passw
         )
@@ -38,7 +39,7 @@ if perm == "y" or perm == "Y":
                 db = str(input('Enter the database name: '))
                 tb = str(input("Enter the Create table Query: "))
                 myDB = mysql.connector.connect(
-                    host = uhost,
+                    host = userhost,
                     user = username,
                     password = passw,
                     database = db
@@ -52,7 +53,7 @@ if perm == "y" or perm == "Y":
                 for j in range(rows):
                     insert = str(input('Enter the MySql query to Enter the data: '))
                     myDB = mysql.connector.connect(
-                        host = uhost,
+                        host = userhost,
                         user = username,
                         password = passw,
                         database = db
@@ -63,20 +64,20 @@ if perm == "y" or perm == "Y":
                     myDB.commit()
         
     if program == 2:
-        uhost = 'localhost'
-        uport = int(input("Enter the Port Number (By deafult 3306): "))
+        userhost = 'localhost'
+        uport = int(input("Enter the Port Number (By default 3306): "))
         username = str(input("Enter your MySQl server username: "))
         passw = str(input("Enter your MySQl server password: "))
         db = str(input("Enter the Name of Database you want to retrieve: "))
         tb = str(input("Enter the Name of Table you want to retrieve: "))
         driver = 'mysql+pymysql'
-        engine = sqlalchemy.create_engine(f'{driver}://{username}:{passw}@{uhost}:{uport}/{db}')
+        engine = sqlalchemy.create_engine(f'{driver}://{username}:{passw}@{userhost}:{uport}/{db}')
         df = pd.read_sql_query(f'SELECT * FROM {tb}', engine)
         print(df)
         perm = str(input('\nDo you want to Export the Data(Y or N): '))
         if perm == "y" or perm == "Y":
-            df.to_csv('D:/Python/school/export.csv',sep=',',header=False)
-            print('Exported the File to loc D:/Python/school/export.csv')
+                df.to_csv('D:\Coding\Python\school\mysql.csv',sep=',',header=False)
+                print(f'Exported the File to loc D:\Coding\Python\school\mysql.csv')
         if perm == 'n' or perm == "N":
             exit
 elif perm == 'n' or perm == 'N':

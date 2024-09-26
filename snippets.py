@@ -1,15 +1,11 @@
-import  sqlalchemy
-import  pymysql
-import  pandas as pd
-
-user_host = 'localhost'
-port = int(input("Enter the Port Number (By default 3306): "))
-username = str(input("Enter your MySQl server username: "))
-passw = str(input("Enter your MySQl server password: "))
-db = str(input("Enter the Name of Database you want to retrieve: "))
-tb = str(input("Enter the Name of Table you want to retrieve: "))
-driver = 'mysql+pymysql'
-engine = sqlalchemy.create_engine(f'{driver}://{username}:{passw}@{user_host}:{port}/{db}')
-df = pd.read_sql_query(f'SELECT * FROM {tb}', engine)
-print(df)
-print(df.iterrows())
+import numpy as np
+import pandas as pd
+dict = [1,2,3,4,5,6,7]
+index = ['A','B','C','D','E','F','G']
+series = pd.Series(dict, index=index)
+series.name = 'Numbers'
+series.index.name = 'Aplha'
+print(series)
+print(series.values)
+print(series.size)
+print(series.empty)

@@ -1,9 +1,6 @@
 import mysql.connector
 import pandas as pd
-import numpy as np
-import pymysql
 import sqlalchemy
-import matplotlib.pyplot as plt
 
 print("Hello, This is Python Program which uses MySQL and Pandas Dataframe to Store and Display the Data.")
 perm = str(input("Please Enter Y to Continue and N to abort: "))

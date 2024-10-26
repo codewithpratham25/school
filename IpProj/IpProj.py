@@ -13,7 +13,7 @@ def mainmenu():
     print('----------------------------------------------------')
     print('1. Display the Stock')
     print('2. Stock Data Analysis')
-    print('3. Graph Plotting')
+    print('3. Stock Graph Plotting')
     print('4. Append Items')
     print('5. Exit')
     choiceInput = int(input('Enter the Choice: '))
@@ -26,7 +26,7 @@ def mainmenu():
             print('\n')
         elif choiceInput == 3:
             print('\n')
-            pass
+            graphPlot()
         elif choiceInput == 4:
             print('\n')
             pass
@@ -65,7 +65,11 @@ def StkDataAnl():
             print(min(stock.loc[:,'TAmt']))
             break
         elif daChoice == 3:
-            pass
+            print('--------------------------------')
+            print('       Segregate by Company   ')
+            print('--------------------------------')
+            compChoice = int(input('Enter the Company Name to segregate acc to it: '))
+            
             break
         elif daChoice == 4:
             print('The Maximum Qty and Prd Name: ')
@@ -80,5 +84,35 @@ def StkDataAnl():
     else:
         print('Invalid Input!! Pls Enter Correct Input')
         StkDataAnl()
+def graphPlot():
+    print('--------------------------------')
+    print('       Stock Graph Ploting    ')
+    print('--------------------------------')
+    print('1. Display Line Graph for Qty vs Item')
+    print('2. Display Vertical Bar Graph for Qty vs Item')
+    print('3. Go Back to Main Menu')
+    gphChoice = int(input('Enter the Choice: '))
+    while gphChoice >= 1 and gphChoice <= 3:
+        if gphChoice == 1:
+            print('Line Graph For Qty vs Item')
+            plt.plot(stock.loc[:,'Name'],stock.loc[:,'Qty'], color='orange')
+            plt.xlabel('ItemName')
+            plt.ylabel('Qty')
+            plt.title('Line Graph For Qty vs Item')
+            plt.show()
+            break
+        elif gphChoice == 2:
+            print('Bar Graph For Qty vs Item')
+            plt.bar(stock.loc[:,'Name'],stock.loc[:,'Qty'], color='orange')
+            plt.xlabel('ItemName')
+            plt.ylabel('Qty')
+            plt.title('Bar Graph For Qty vs Item')
+            plt.show()
+            break
+        elif gphChoice == 3:
+            mainmenu()
+    else:
+        print('Invalid Input!! Pls Enter Correct Input')
+
 mainmenu()
     

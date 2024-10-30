@@ -14,10 +14,9 @@ def mainmenu():
     print('1. Display the Stock')
     print('2. Stock Data Analysis')
     print('3. Stock Graph Plotting')
-    print('4. Append Items')
-    print('5. Exit')
+    print('4. Exit')
     choiceInput = int(input('Enter the Choice: '))
-    while choiceInput >= 1 and choiceInput <= 5:
+    while choiceInput >= 1 and choiceInput <= 4:
         if choiceInput == 1:
             disStock()
             print('\n')
@@ -28,9 +27,6 @@ def mainmenu():
             print('\n')
             graphPlot()
         elif choiceInput == 4:
-            print('\n')
-            pass
-        elif choiceInput == 5:
             print('Thank You!!')
             exit()
     else:
@@ -50,36 +46,28 @@ def StkDataAnl():
     print('--------------------------------')
     print('1. Display the Maximum Total Amt')
     print('2. Display the Minimum Total Amt')
-    print('3. Segregate by Company')
-    print('4. Show Maximum Qty and Prd')
-    print('5. Show Minimum Qty and Prd')
-    print('6. Go Back to Main Menu')
+    print('3. Show Maximum Qty and Prd')
+    print('4. Show Minimum Qty and Prd')
+    print('5. Go Back to Main Menu')
     daChoice = int(input('Enter the Choice: '))
-    while daChoice >= 1 and daChoice <= 6:
+    while daChoice >= 1 and daChoice <= 5:
         if daChoice == 1:
             print('The Maximum Total Amount is: ')
-            print(max(stock.loc[:,'TAmt']))
+            print(stock[['IndexNo','TAmt','Name']][(stock['TAmt']) == stock.TAmt.max()])
             break
         elif daChoice == 2:
             print('The Minimum Total Amount is: ')
-            print(min(stock.loc[:,'TAmt']))
+            print(stock[['IndexNo','TAmt','Name']][(stock['TAmt']) == stock.TAmt.min()])
             break
         elif daChoice == 3:
-            print('--------------------------------')
-            print('       Segregate by Company   ')
-            print('--------------------------------')
-            compChoice = int(input('Enter the Company Name to segregate acc to it: '))
-            
+            print('The Maximum Qty and Prd Name: ')
+            print(stock[['IndexNo','Qty','Name']][(stock['Qty']) == stock.Qty.max()])
             break
         elif daChoice == 4:
-            print('The Maximum Qty and Prd Name: ')
-            print(max(stock.loc[:,'Qty']))
+            print('The Minimum Qty and Prd Name: ')
+            print(stock[['IndexNo','Qty','Name']][(stock['Qty']) == stock.Qty.min()])
             break
         elif daChoice == 5:
-            print('The Minimum Qty and Prd Name: ')
-            print(min(stock.loc[:,'Qty']))
-            break
-        elif daChoice == 6:
             mainmenu()
     else:
         print('Invalid Input!! Pls Enter Correct Input')
@@ -98,6 +86,7 @@ def graphPlot():
             plt.plot(stock.loc[:,'Name'],stock.loc[:,'Qty'], color='orange')
             plt.xlabel('ItemName')
             plt.ylabel('Qty')
+            plt.xticks(rotation=90)
             plt.title('Line Graph For Qty vs Item')
             plt.show()
             break
@@ -106,6 +95,7 @@ def graphPlot():
             plt.bar(stock.loc[:,'Name'],stock.loc[:,'Qty'], color='orange')
             plt.xlabel('ItemName')
             plt.ylabel('Qty')
+            plt.xticks(rotation=90)
             plt.title('Bar Graph For Qty vs Item')
             plt.show()
             break

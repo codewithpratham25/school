@@ -1,6 +1,17 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-stock = pd.read_csv('D:/Coding/Python//school/IpProj/IpProj.csv')
+import sqlalchemy
 
-company = str(input('ENTER THE COMPANY NAME: '))
-print(stock[['IndexNo','Qty','Name']][(stock['Company'] == company)])
+engine = sqlalchemy.create_engine(f'mysql+pymysql://root:mysql@localhost:3306/invmanagement')
+userDf = pd.read_sql_query('SELECT * FROM userandpass',engine)
+print(userDf)
+passw = ['prath@123']
+passDict = {'Username':pd.Series(passw)}
+passdf = pd.DataFrame(passDict)
+print(passdf)
+hel = (passdf == userDf[['Username']][(userDf['Password'] == passw)])
+cond = (hel.all())
+if cond.values == False:
+    print('Hel')
+
+# print(passdf == userDf[['Username']][(userDf['Password'] == passw)])

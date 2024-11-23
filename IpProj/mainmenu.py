@@ -1,6 +1,7 @@
 import pandas as pd
 import sqlalchemy
 from matplotlib import pyplot as plt
+from storeDetails import storeDetail
 #main code
 class MainMenu():
     global mainmenu
@@ -20,6 +21,16 @@ class MainMenu():
         if cond.values == True:
             stock = pd.read_csv(f'A:/codewithpratham/school/IpProj/{usern}.csv')
             def mainmenu():
+                engine = sqlalchemy.create_engine(f'mysql+pymysql://root:mysql@localhost:3306/invmanagement')
+                storedf = pd.read_sql_query('SELECT * FROM storedet',engine)
+                if storedf.empty == True:
+                    empty = 'Not Assigned'
+                    storeDetail.storeDetail(owner=empty,store=empty,storeCat=empty)
+                else:
+                    owner = (storedf['Owner'])
+                    storename = (storedf['StoreName'])
+                    storecat = (storedf['StoreCat'])
+                    storeDetail.storeDetail(owner=owner,store=storename,storeCat=storecat)
                 print('----------------------------------------------------')
                 print('                Inventory Management             ')
                 print('----------------------------------------------------')
@@ -27,9 +38,10 @@ class MainMenu():
                 print('2. Stock Data Analysis')
                 print('3. Stock Graph Plotting')
                 print('4. Data Export to MySQL')
-                print('5. Exit')
+                print('5. Edit Store Details')
+                print('6. Exit')
                 inpChocie = int(input('Enter the Choice: '))
-                while inpChocie >=1 and inpChocie <= 5:
+                while inpChocie >=1 and inpChocie <= 6:
                     if inpChocie == 1:
                         disStock()
                         break
@@ -43,11 +55,23 @@ class MainMenu():
                         dataExpMySql()
                         break
                     if inpChocie == 5:
-                        print('Thank You For using Inv Management')
+                        print('Edit Owner Name, Store Name, Store Cat')
+                        owName = input('Owner Name: ')
+                        strName = input('Store Name: ')
+                        strCat = input('Store Cat: ')
+                        strDict = {'Owner':pd.Series(owName),'StoreName':pd.Series(strName),'StoreCat':pd.Series(strCat)}
+                        userDF = pd.DataFrame(strDict)
+                        engine = sqlalchemy.create_engine(f'mysql+pymysql://root:mysql@localhost:3306/invmanagement')
+                        userDF.to_sql('storedet',engine,if_exists='replace',index=False)
+                        break
+                    if inpChocie == 6:
+                        print('Thank You For using Inv Management v1.2')
                         exit()
                         break
                 else:
+                    print('---------------------------------------')
                     print('Invalid Choice. Pls Enter Valid Choice.')
+                    print('---------------------------------------')
                     mainmenu()
             def disStock():
                 print('-----------------------')

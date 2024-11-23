@@ -33,7 +33,11 @@ class InvAccManage():
                Main.mainmenu()
             else:
                 print('Invalid Credentials!!')
-                createAcc(usern=usern,passw=passw)
+                perm = input('Do you want to create Acc with these Credentials(Y or N): ')
+                if perm == 'Y':
+                    createAcc(usern=usern,passw=passw)
+                else:
+                    login(usern=usern,passw=passw)
         print('---------------------------------------------------------------')
         print('Hello User! Welcome to Inventory Management v1.1.')
         print('This is a Command Line based application to Manage Inventory.')

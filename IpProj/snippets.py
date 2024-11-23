@@ -1,17 +1,23 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import sqlalchemy
+import mysql.connector
 
-engine = sqlalchemy.create_engine(f'mysql+pymysql://root:mysql@localhost:3306/invmanagement')
-userDf = pd.read_sql_query('SELECT * FROM userandpass',engine)
-print(userDf)
-passw = ['prath@123']
-passDict = {'Username':pd.Series(passw)}
-passdf = pd.DataFrame(passDict)
-print(passdf)
-hel = (passdf == userDf[['Username']][(userDf['Password'] == passw)])
-cond = (hel.all())
-if cond.values == False:
-    print('Hel')
-
-# print(passdf == userDf[['Username']][(userDf['Password'] == passw)])
+usern = 'prath'
+userhost = 'localhost'
+uport = '3306'
+username = 'root'
+passw = 'mysql'
+db = 'test101'
+        
+myDB = mysql.connector.connect(
+    host = userhost,
+    user = username,
+    password = passw,
+    database = db
+)
+        
+myCursor = myDB.cursor()
+query = f'CREATE TABLE {usern}(Owner text(50), StoreName text(50), StoreCat text(50))'
+prin = myCursor.execute(query)
+print(prin)

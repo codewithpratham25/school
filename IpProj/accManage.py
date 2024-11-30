@@ -6,6 +6,7 @@ class InvAccManage():
     def prgIni():
         global createAcc
         global login
+        global accPage
         def createAcc(usern,passw):
             usern = usern
             passw = passw
@@ -21,6 +22,8 @@ class InvAccManage():
                 userDF = pd.DataFrame(serDict)
                 engine = sqlalchemy.create_engine(f'mysql+pymysql://root:mysql@localhost:3306/invmanagement')
                 userDF.to_sql('userandpass',engine,if_exists='append',index=False)
+                print('Creating Account .....')
+                print('Account Creation Succesful!! Proceeding to Login')
         def login(usern,passw):
             usern = usern
             passw = passw
@@ -30,7 +33,7 @@ class InvAccManage():
             if cond.values == True:
                print('User Login Successful!')
                from mainmenu import MainMenu as Main
-               Main.mainmenu()
+               Main.firstStoreDet()
             else:
                 print('Invalid Credentials!!')
                 perm = input('Do you want to create Acc with these Credentials(Y or N): ')
@@ -38,35 +41,37 @@ class InvAccManage():
                     createAcc(usern=usern,passw=passw)
                 else:
                     login(usern=usern,passw=passw)
-        print('---------------------------------------------------------------')
-        print('Hello User! Welcome to Inventory Management v1.1.')
-        print('This is a Command Line based application to Manage Inventory.')
-        print('---------------------------------------------------------------')
-        print('Pls Enter: \n1. to Login\n2. to Create Account\n3. to Exit Application')
-        choice = int(input('Enter the Choice: '))
-        if choice == 1:
-            print('-----------------------')
-            print('         Login    ')
-            print('-----------------------')
-            usern = input('Username: ')
-            passw = input('Password: ')
-            login(usern=usern,passw=passw)
-        if choice == 2:
-            print('-----------------------')
-            print('     Create Account    ')
-            print('-----------------------')
-            usern = input('Username: ')
-            passw = input('Password: ')
-            createAcc(usern=usern,passw=passw)
-            print('-----------------------')
-            print('         Login    ')
-            print('-----------------------')
-            logusern = input('Username: ')
-            logpassw = input('Password: ')
-            login(usern=logusern,passw=logpassw)
-        if choice == 3:
+        def accPage():
             print('---------------------------------------------------------------')
-            print('Thank You User! for using Inventory Management v1.1.\nDevloped By codewithpratham\nv1.1')
+            print('Hello User! Welcome to Inventory Management v1.3.')
+            print('This is a Command Line based application to Manage Inventory.')
             print('---------------------------------------------------------------')
-            exit()
+            print('Pls Enter: \n1. to Login\n2. to Create Account\n3. to Exit Application')
+            choice = int(input('Enter the Choice: '))
+            if choice == 1:
+                print('-----------------------')
+                print('         Login    ')
+                print('-----------------------')
+                usern = input('Username: ')
+                passw = input('Password: ')
+                login(usern=usern,passw=passw)
+            if choice == 2:
+                print('-----------------------')
+                print('     Create Account    ')
+                print('-----------------------')
+                usern = input('Username: ')
+                passw = input('Password: ')
+                createAcc(usern=usern,passw=passw)
+                print('-----------------------')
+                print('         Login    ')
+                print('-----------------------')
+                logusern = input('Username: ')
+                logpassw = input('Password: ')
+                login(usern=logusern,passw=logpassw)
+            if choice == 3:
+                print('---------------------------------------------------------------')
+                print('Thank You User! for using Inventory Management v1.3.\nDevloped By codewithpratham\nv1.1')
+                print('---------------------------------------------------------------')
+                exit()
+        accPage()
     prgIni()

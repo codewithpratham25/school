@@ -20,9 +20,12 @@ class MainMenu():
         cond = (usern == (userDf[['Username']][(userDf['Password'] == passw)]))
         if cond.values == True:
             stock = pd.read_csv(f'A:/codewithpratham/school/IpProj/{usern}.csv')
+            global mainmenu
+            global firstStoreDet
             def mainmenu():
+                print('\n')
                 engine = sqlalchemy.create_engine(f'mysql+pymysql://root:mysql@localhost:3306/invmanagement')
-                storedf = pd.read_sql_query('SELECT * FROM storedet',engine)
+                storedf = pd.read_sql_query(f'SELECT * FROM storedet WHERE Username = "{usern}"',engine)
                 if storedf.empty == True:
                     empty = 'Not Assigned'
                     storeDetail.storeDetail(owner=empty,store=empty,storeCat=empty)
@@ -39,7 +42,7 @@ class MainMenu():
                 print('3. Stock Graph Plotting')
                 print('4. Data Export to MySQL')
                 print('5. Edit Store Details')
-                print('6. Exit')
+                print('6. Logout/Exit')
                 inpChocie = int(input('Enter the Choice: '))
                 while inpChocie >=1 and inpChocie <= 6:
                     if inpChocie == 1:
@@ -62,11 +65,12 @@ class MainMenu():
                         strDict = {'Owner':pd.Series(owName),'StoreName':pd.Series(strName),'StoreCat':pd.Series(strCat)}
                         userDF = pd.DataFrame(strDict)
                         engine = sqlalchemy.create_engine(f'mysql+pymysql://root:mysql@localhost:3306/invmanagement')
-                        userDF.to_sql('storedet',engine,if_exists='replace',index=False)
+                        userDF.to_sql('storedet',engine,if_exists='append',index=False)
                         break
                     if inpChocie == 6:
-                        print('Thank You For using Inv Management v1.2')
-                        exit()
+                        print('Thank You For using Inv Management v1.3')
+                        from accManage import InvAccManage
+                        InvAccManage.accPage()
                         break
                 else:
                     print('---------------------------------------')
@@ -190,7 +194,27 @@ class MainMenu():
                     stock.to_sql(f'{username}',engine,if_exists='append',index=False)
                 elif perm == "N":
                     mainmenu()
-            mainmenu() 
+            def firstStoreDet():
+                if stock.empty == True:
+                    print('+-------------------------------------------+')
+                    print(f'Hello {usern}!!')
+                    print('Welcome to Inventory Management Interface v1.3.')
+                    print('Lets Setup Your Store Details.')
+                    print('+-------------------------------------------+')
+                    owName = input('Owner Name: ')
+                    strName = input('Store Name: ')
+                    strCat = input('Store Cat: ')
+                    strDict = {'Owner':pd.Series(owName),'StoreName':pd.Series(strName),'StoreCat':pd.Series(strCat)}
+                    userDF = pd.DataFrame(strDict)
+                    engine = sqlalchemy.create_engine(f'mysql+pymysql://root:mysql@localhost:3306/invmanagement')
+                    userDF.to_sql('storedet',engine,if_exists='append',index=False)
+                    print('Store Details Saved Successfully!!')
+                    print('Please Add Items to Stock Sheet to Avoid Re-Updation of Store Details.')
+                    print('Proceeding to Inventory Management Interface.')
+                    mainmenu()
+                if stock.empty == False:
+                    mainmenu()
+            firstStoreDet()
         else:
             print('Invalid Credentials!!')
     loadsession()
